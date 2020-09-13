@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, TextInput, TouchableHighlight} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import ListIcon from '../../assets/icons/list.icon.js';
 
@@ -10,6 +11,7 @@ const SignInAndSignUp = () => {
   const [passwordValue, onPasswordChange] = React.useState('');
   const [emailValue, onEmailChange] = React.useState('');
   const [type, setScreenType] = React.useState('signIn');
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
@@ -50,7 +52,9 @@ const SignInAndSignUp = () => {
           {type === 'signIn' ? (
             <Text style={styles.forgotPassword}>Forgot password?</Text>
           ) : null}
-          <TouchableHighlight style={styles.buttonWrapper}>
+          <TouchableHighlight
+            onPress={() => navigation.navigate('Home')}
+            style={styles.buttonWrapper}>
             <View style={styles.signInButton}>
               <Text style={styles.buttonText}>
                 {type === 'signIn' ? 'Sign in' : 'Sign up'}

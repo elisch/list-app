@@ -16,7 +16,8 @@ import {
   Text,
 } from 'react-native';
 
-import SignInAndSignUp from './screens/sign-in-and-sign-up/sign-in-and-sign-up.screen.js';
+import SignInAndSignUp from './screens/sign-in-and-sign-up/sign-in-and-sign-up.screen';
+import Home from './screens/home/home.screen';
 
 const Stack = createStackNavigator();
 
@@ -27,6 +28,7 @@ const App: () => React$Node = () => {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="SignInAndSignUp">{() => <SignInAndSignUp/>}</Stack.Screen>
+          <Stack.Screen name="Home">{() => <Home />}</Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>
     </>
