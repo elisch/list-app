@@ -8,7 +8,7 @@
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-
+import {Provider} from 'react-redux';
 import React from 'react';
 import {
   SafeAreaView,
@@ -16,21 +16,27 @@ import {
   Text,
 } from 'react-native';
 
+import store from './redux/store';
+
 import SignInAndSignUp from './screens/sign-in-and-sign-up/sign-in-and-sign-up.screen';
 import Home from './screens/home/home.screen';
 
 const Stack = createStackNavigator();
 
-const App: () => React$Node = () => {
+const App = () => {
   return (
     <>
-      <StatusBar barStyle="dark-content" />
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="SignInAndSignUp">{() => <SignInAndSignUp/>}</Stack.Screen>
-          <Stack.Screen name="Home">{() => <Home />}</Stack.Screen>
-        </Stack.Navigator>
-      </NavigationContainer>
+      <Provider store={store}>
+        <StatusBar barStyle="dark-content" />
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="SignInAndSignUp">
+              {() => <SignInAndSignUp />}
+            </Stack.Screen>
+            <Stack.Screen name="Home">{() => <Home />}</Stack.Screen>
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>
     </>
   );
 };
