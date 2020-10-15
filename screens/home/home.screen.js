@@ -19,21 +19,23 @@ const DATA = [
   },
 ];
 
-const renderItem = ({item}) => (
-  <View style={styles.listItem}>
-    <Text style={styles.title}>{item.title}</Text>
-  </View>
-);
+const Home = () => {
+  const renderItem = ({item}) => (
+    <View style={styles.listItem}>
+      <Text style={styles.title}>{item.title}</Text>
+    </View>
+  );
 
-const Home = () => (
-  <View style={styles.container}>
-    <FlatList
-      data={DATA}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.id}
-    />
-    <Button type="round" />
-  </View>
-);
+  return (
+    <View style={styles.container}>
+      <FlatList
+        data={DATA}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+      />
+      <Button type="round" />
+    </View>
+  );
+};
 
 export default Home;

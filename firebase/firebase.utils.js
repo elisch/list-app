@@ -1,32 +1,19 @@
-import auth from '@react-native-firebase/auth';
-import firebase from '@react-native-firebase/app';
+import * as firebase from 'firebase';
+import '@firebase/auth';
+import '@firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyANlIj7e4dqcb8IbTEE9xH-biM6x1NFCVg',
-  authDomain: 'listapp-b7162.firebaseapp.com',
-  databaseURL: 'https://listapp-b7162.firebaseio.com',
-  projectId: 'listapp-b7162',
-  storageBucket: 'listapp-b7162.appspot.com',
-  messagingSenderId: '919032492108',
-  appId: '1:919032492108:web:9159a90005624e198c44e9',
-  measurementId: 'G-SHSMFDEYTG',
+  apiKey: 'AIzaSyBLMUqoFzEJDcbp5weBzWqpe-a2nIzmuq0',
+  // authDomain: 'your-auth-domain-b1234.firebaseapp.com',
+  // databaseURL: 'https://your-database-name.firebaseio.com',
+  projectId: 'list-app-270e3',
+  // storageBucket: 'your-project-id-1234.appspot.com',
+  // messagingSenderId: '12345-insert-yourse',
+  appId: '1:246515251106:ios:fedec30c2bce2ec167e4fb',
 };
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-
-const createUser = (email, password) => {
-  auth()
-    .createUserWithEmailAndPassword(email, password)
-    .catch(function (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log('ärrrårrz', error);
-    });
-};
-
-const listenForUser = (userAuth) => {
-
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
 }
 
-export default {createUser, listenForUser};
+export {firebase};

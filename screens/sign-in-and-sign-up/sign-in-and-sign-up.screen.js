@@ -1,24 +1,88 @@
 import React from 'react';
-import {View, Text, TextInput, TouchableHighlight} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-
-import ListIcon from '../../assets/icons/list.icon.js';
-
+import {ScrollView, View, Text, TouchableHighlight, Alert} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {firebase} from '../../firebase/firebase.utils';
+import TextInput from '../../components/textInput/TextInput';
+import Button from '../../components/button/button.component';
 import styles from './sign-in-and-sign-up.styles.js';
+import commonStyles from '../../assets/commonStyles.js';
 
-const SignInAndSignUp = () => {
-  const [usernameValue, onUsernameChange] = React.useState('');
-  const [passwordValue, onPasswordChange] = React.useState('');
-  const [emailValue, onEmailChange] = React.useState('');
-  const [type, setScreenType] = React.useState('signIn');
+const SignInAndSignUp = ({type}) => {
+  const [name, onNameChange] = React.useState('');
+  const [password, onPasswordChange] = React.useState('');
+  const [confirmPassword, onConfirmPasswordChange] = React.useState('');
+  const [email, onEmailChange] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState('');
+  const [buttonIsDisabled, setButtonIsDisabled] = React.useState(false);
   const navigation = useNavigation();
 
+  const saveUserProfile = async (response) => {
+    const uid = response.user.uid;
+    const userRef = firebase.firestore().doc(`users/${uid}`);
+    const usersRef = firebase.firestore().collection('users');
+    const snapShot = await userRef.get();
+
+    if (!snapShot.exists) {
+      const createdAt = new Date();
+      const userData = {
+        id: uid,
+        email,
+        name,
+        createdAt,
+      };
+
+      usersRef
+        .doc(uid)
+        .set(userData)
+        .then(() => navigation.navigate('Home'))
+        .catch((error) => {
+          console.error(error);
+        })
+        .finally(() => {
+          setLoading(false);
+          setButtonIsDisabled(false);
+        });
+    }
+  };
+
+  const handleSignUp = () => {
+    setLoading(true);
+    setButtonIsDisabled(true);
+
+    if (password !== confirmPassword) {
+      Alert.alert("Passwords don't match");
+      setLoading(false);
+      return;
+    }
+
+    if (name.length < 2) {
+      setErrorMessage('Name must not be null.');
+      setLoading(false);
+      return;
+    }
+
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then((response) => {
+        if (response.user) {
+          saveUserProfile(response);
+        }
+      })
+      .catch((error) => {
+        setErrorMessage(error.message);
+        setLoading(false);
+        setButtonIsDisabled(false);
+      });
+  };
+
+  const handleSignIn = () => {
+    console.log('signIn! :D');
+  };
+
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        {/* <ListIcon /> */}
-        <Text>Logo här</Text>
-      </View>
+    <ScrollView style={styles.container}>
       <View style={styles.contentWrapper}>
         <Text style={styles.welcome}>
           {type === 'signIn' ? 'Welcome back' : 'Welcome!'}
@@ -27,48 +91,56 @@ const SignInAndSignUp = () => {
           {type === 'signIn' ? 'Sign In' : 'Sign Up'}
         </Text>
         <View style={styles.box}>
-          <Text style={styles.inputLabel}>Username:</Text>
+          {type === 'signUp' ? (
+            <TextInput
+              onChange={(text) => onNameChange(text)}
+              value={name}
+              label="Name:"
+            />
+          ) : null}
           <TextInput
-            style={styles.textInput}
-            onChangeText={(text) => onUsernameChange(text)}
-            value={usernameValue}
+            onChange={(text) => onEmailChange(text)}
+            value={email}
+            label="Email:"
+          />
+          <TextInput
+            onChange={(text) => onPasswordChange(text)}
+            value={password}
+            label="Password:"
           />
           {type === 'signUp' ? (
-            <>
-              <Text style={styles.inputLabel}>Email:</Text>
-              <TextInput
-                style={styles.textInput}
-                onChangeText={(text) => onEmailChange(text)}
-                value={emailValue}
-              />
-            </>
+            <TextInput
+              onChange={(text) => onConfirmPasswordChange(text)}
+              value={confirmPassword}
+              label="Confirm Password:"
+            />
           ) : null}
-          <Text style={styles.inputLabel}>Password:</Text>
-          <TextInput
-            style={styles.textInput}
-            onChangeText={(text) => onPasswordChange(text)}
-            value={passwordValue}
-          />
           {type === 'signIn' ? (
             <Text style={styles.forgotPassword}>Forgot password?</Text>
           ) : null}
-          <TouchableHighlight
-            onPress={() => navigation.navigate('Home')}
-            style={styles.buttonWrapper}>
-            <View style={styles.signInButton}>
-              <Text style={styles.buttonText}>
-                {type === 'signIn' ? 'Sign in' : 'Sign up'}
-              </Text>
-            </View>
-          </TouchableHighlight>
+
+          <Button
+            onPress={type === 'signUp' ? handleSignUp : handleSignIn}
+            loading={loading}
+            style={{minWidth: 200}}
+            label={
+              loading ? 'Loading' : type === 'signIn' ? 'Sign in' : 'Sign up'
+            }
+            disable={buttonIsDisabled}
+          />
+          <Text style={commonStyles.errorText}>{errorMessage}</Text>
         </View>
-        <TouchableHighlight onPress={() => setScreenType('signUp')}>
-          <Text style={styles.newAccountButton}>Or create a new account</Text>
+        <TouchableHighlight
+          onPress={() =>
+            navigation.navigate(type === 'signIn' ? 'SignUp' : 'SignIn')
+          }>
+          <Text style={styles.newAccountButton}>
+            {type === 'signIn' ? 'Or create a new account' : 'Or sign in'}
+          </Text>
         </TouchableHighlight>
       </View>
-    </View>
+    </ScrollView>
   );
-}
-
+};
 
 export default SignInAndSignUp;

@@ -39,37 +39,6 @@ const styles = StyleSheet.create({
     // fontFamily: fonts.medium,
     fontSize: 18,
   },
-  inputLabel: {
-    fontSize: 12,
-    color: colors.text_dark,
-    // fontFamily: fonts.regular,
-  },
-  textInput: {
-    marginVertical: 10,
-    height: 37,
-    padding: 10,
-    borderColor: colors.border,
-    borderWidth: 1,
-    borderRadius: 7,
-  },
-  buttonWrapper: {
-    marginTop: 22,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  signInButton: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 44,
-    backgroundColor: colors.button,
-    borderRadius: 7,
-    paddingVertical: 10,
-    paddingHorizontal: 30,
-  },
-  buttonText: {
-    fontSize: 20,
-    color: colors.white,
-  },
   forgotPassword: {
     alignSelf: 'flex-end',
     fontSize: 12,

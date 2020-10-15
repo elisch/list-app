@@ -20,6 +20,10 @@ const commonStyles = {
     borderRadius: 32,
     ...this.shadow,
   },
+  errorText: {
+    marginTop: 10,
+    color: 'red',
+  },
 };
 
 export default commonStyles;
