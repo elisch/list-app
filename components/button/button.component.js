@@ -1,11 +1,18 @@
 import React from 'react';
-import {TouchableHighlight, View, Text} from 'react-native';
+import {TouchableHighlight, View, Text, ActivityIndicator} from 'react-native';
 import styles from './button.styles';
 
-const Button = ({type}) => (
-  <TouchableHighlight>
+const Button = ({label, onPress, type, loading, disabled, style}) => (
+  <TouchableHighlight
+    style={[style, styles.buttonWrapper]}
+    onPress={onPress}
+    disabled={disabled || loading}>
     <View style={type === 'round' ? styles.round : styles.button}>
-      <Text>+</Text>
+      {loading ? (
+        <ActivityIndicator />
+      ) : (
+        <Text style={styles.buttonText}>{label}</Text>
+      )}
     </View>
   </TouchableHighlight>
 );
