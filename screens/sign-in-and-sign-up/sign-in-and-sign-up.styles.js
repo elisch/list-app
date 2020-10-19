@@ -7,7 +7,8 @@ const styles = StyleSheet.create({
   ...commonStyles,
   container: {
     flex: 1,
-    backgroundColor: colors.white,
+    justifyContent: 'flex-end',
+    backgroundColor: colors.main_light,
     opacity: 0.5,
   },
   header: {
@@ -18,24 +19,22 @@ const styles = StyleSheet.create({
     padding: 50,
   },
   contentWrapper: {
-    flex: 1,
     width: '100%',
     justifyContent: 'flex-start',
     alignItems: 'center',
     marginTop: 12,
     paddingTop: 60,
     padding: 30,
-    backgroundColor: colors.main_light,
   },
   welcome: {
     // fontFamily: fonts.thin,
     fontSize: 36,
-    color: colors.text_dark,
+    color: colors.black,
   },
   box: commonStyles.box,
   signIn: {
     marginTop: 35,
-    color: colors.text_dark,
+    color: colors.black,
     // fontFamily: fonts.medium,
     fontSize: 18,
   },
@@ -46,6 +45,10 @@ const styles = StyleSheet.create({
   newAccountButton: {
     marginTop: 36,
     fontSize: 18,
+  },
+  button: {
+    marginTop: 40,
+    width: 200,
   },
 });
 

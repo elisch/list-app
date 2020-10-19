@@ -7,7 +7,7 @@ const Button = ({label, onPress, type, loading, disabled, style}) => (
     style={[style, styles.buttonWrapper]}
     onPress={onPress}
     disabled={disabled || loading}>
-    <View style={type === 'round' ? styles.round : styles.button}>
+    <View style={[style, type === 'round' ? styles.round : styles.button]}>
       {loading ? (
         <ActivityIndicator />
       ) : (

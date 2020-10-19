@@ -15,13 +15,15 @@ const Stack = createStackNavigator();
 const App = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="SignIn">
+      <Stack.Screen name="SignIn" options={{headerShown: false}}>
         {() => <SignInAndSignUp type="signIn" />}
       </Stack.Screen>
-      <Stack.Screen name="SignUp">
+      <Stack.Screen name="SignUp" options={{headerShown: false}}>
         {() => <SignInAndSignUp type="signUp" />}
       </Stack.Screen>
-      <Stack.Screen name="Home">{() => <Home />}</Stack.Screen>
+      <Stack.Screen name="Home" options={{headerShown: false}}>
+        {() => <Home />}
+      </Stack.Screen>
     </Stack.Navigator>
   );
 };

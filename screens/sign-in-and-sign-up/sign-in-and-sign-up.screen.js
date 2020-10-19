@@ -123,7 +123,7 @@ const SignInAndSignUp = ({type, dispatch}) => {
         if (doc.exists) {
           return doc.data();
         } else {
-          console.log('No such document!');
+          console.error('User document does not exist.');
         }
       })
       .catch((error) => {
@@ -134,7 +134,7 @@ const SignInAndSignUp = ({type, dispatch}) => {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.contentWrapper}>
         <Text style={styles.welcome}>
           {type === 'signIn' ? 'Welcome back' : 'Welcome!'}
@@ -159,6 +159,7 @@ const SignInAndSignUp = ({type, dispatch}) => {
             onChange={(text) => onPasswordChange(text)}
             value={password}
             label="Password:"
+            isPassword
           />
           {type === 'signUp' ? (
             <TextInput
@@ -174,7 +175,7 @@ const SignInAndSignUp = ({type, dispatch}) => {
           <Button
             onPress={type === 'signUp' ? handleSignUp : handleSignIn}
             loading={loading}
-            style={{minWidth: 200}}
+            style={styles.button}
             label={
               loading ? 'Loading' : type === 'signIn' ? 'Sign in' : 'Sign up'
             }
@@ -191,7 +192,7 @@ const SignInAndSignUp = ({type, dispatch}) => {
           </Text>
         </TouchableHighlight>
       </View>
-    </ScrollView>
+    </View>
   );
 };
 

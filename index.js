@@ -17,7 +17,7 @@ const app = () => (
     <StatusBar barStyle="dark-content" />
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="App">
+        <Stack.Screen name="App" options={{headerShown: false}}>
           {({navigation}) => <App navigation={navigation} />}
         </Stack.Screen>
       </Stack.Navigator>
