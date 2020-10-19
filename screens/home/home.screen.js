@@ -1,5 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, FlatList} from 'react-native';
+import {connect} from 'react-redux';
+
 import styles from './home.styles';
 
 import Button from '../../components/button/button.component';
@@ -19,7 +21,7 @@ const DATA = [
   },
 ];
 
-const Home = () => {
+const Home = (props) => {
   const renderItem = ({item}) => (
     <View style={styles.listItem}>
       <Text style={styles.title}>{item.title}</Text>
@@ -28,6 +30,7 @@ const Home = () => {
 
   return (
     <View style={styles.container}>
+      <Text>Hej {props.currentUser.name}</Text>
       <FlatList
         data={DATA}
         renderItem={renderItem}
@@ -38,4 +41,8 @@ const Home = () => {
   );
 };
 
-export default Home;
+const mapStateToProps = ({user}) => ({
+  currentUser: user.currentUser,
+});
+
+export default connect(mapStateToProps, null)(Home);

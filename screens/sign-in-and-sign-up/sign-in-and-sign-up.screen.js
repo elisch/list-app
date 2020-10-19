@@ -1,13 +1,18 @@
 import React from 'react';
 import {ScrollView, View, Text, TouchableHighlight, Alert} from 'react-native';
+import PropTypes from 'prop-types';
 import {useNavigation} from '@react-navigation/native';
+import {connect} from 'react-redux';
+
 import {firebase} from '../../firebase/firebase.utils';
+import {setCurrentUser} from '../../redux/user/user.action';
+
 import TextInput from '../../components/textInput/TextInput';
 import Button from '../../components/button/button.component';
 import styles from './sign-in-and-sign-up.styles.js';
 import commonStyles from '../../assets/commonStyles.js';
 
-const SignInAndSignUp = ({type}) => {
+const SignInAndSignUp = ({type, dispatch}) => {
   const [name, onNameChange] = React.useState('');
   const [password, onPasswordChange] = React.useState('');
   const [confirmPassword, onConfirmPasswordChange] = React.useState('');
@@ -78,7 +83,54 @@ const SignInAndSignUp = ({type}) => {
   };
 
   const handleSignIn = () => {
-    console.log('signIn! :D');
+    setLoading(true);
+    setButtonIsDisabled(true);
+
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((res) => {
+        if (res && res.user) {
+          const userId = res.user.uid;
+
+          getUserProfile(userId).then((userProfile) => {
+            if (userProfile) {
+              dispatch(
+                setCurrentUser({
+                  ...userProfile,
+                }),
+              );
+              navigation.navigate('Home');
+            }
+          });
+        }
+      })
+      .catch((error) => {
+        setErrorMessage(error.message);
+      })
+      .finally(() => {
+        setLoading(false);
+        setButtonIsDisabled(false);
+      });
+  };
+
+  const getUserProfile = async (id) => {
+    var docRef = firebase.firestore().collection('users').doc(id);
+
+    const userProfile = docRef
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          return doc.data();
+        } else {
+          console.log('No such document!');
+        }
+      })
+      .catch((error) => {
+        console.error('Error getting user profile document:', error);
+      });
+
+    return userProfile;
   };
 
   return (
@@ -143,4 +195,12 @@ const SignInAndSignUp = ({type}) => {
   );
 };
 
-export default SignInAndSignUp;
+SignInAndSignUp.propTypes = {
+  type: PropTypes.string,
+};
+
+const mapStateToProps = ({user}) => ({
+  currentUser: user.currentUser,
+});
+
+export default connect(mapStateToProps)(SignInAndSignUp);

@@ -21,6 +21,7 @@
     "css-select": "^2.1.0",
     "css-tree": "^1.0.0-alpha.39",
     "firebase": "^7.23.0",
+    "prop-types": "^15.7.2",
     "react": "16.13.1",
     "react-native": "0.63.2",
     "react-native-gesture-handler": "^1.8.0",
@@ -28,12 +29,13 @@
     "react-native-safe-area-context": "^3.1.7",
     "react-native-screens": "^2.10.1",
     "react-native-svg": "^12.1.0",
+    "react-navigation": "^4.4.2",
     "react-redux": "^7.2.1",
     "redux": "^4.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
-    "@babel/runtime": "^7.11.2",
+    "@babel/runtime": "^7.12.1",
     "@react-native-community/eslint-config": "^2.0.0",
     "babel-jest": "^26.3.0",
     "eslint": "^7.9.0",
